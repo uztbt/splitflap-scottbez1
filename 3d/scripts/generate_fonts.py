@@ -39,6 +39,7 @@ _MODES = {
     'front-back': 1,
     'full-font': 2,
     'side-by-side': 3,
+    'print-font': 4,
 }
 
 def render(extra_variables, skip_optimize, output_directory):
@@ -46,6 +47,7 @@ def render(extra_variables, skip_optimize, output_directory):
     renderer.clean()
     svg_output = renderer.render_svgs(panelize_quantity = 1)
 
+    svg_output = svg_output[0]
     processor = SvgProcessor(svg_output)
 
     if not skip_optimize:

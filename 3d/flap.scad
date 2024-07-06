@@ -76,11 +76,11 @@ module flap_2d(cut_tabs = true) {
 }
 
 
-module _flap(flap_color) {
+module _flap(flap_color, cut_tabs=true) {
     color(flap_color) {
         translate([0, 0, -flap_thickness/2]) {
             linear_extrude(height=flap_thickness) {
-                flap_2d();
+                flap_2d(cut_tabs);
             }
         }
     }
@@ -193,12 +193,12 @@ module _flap_letter(letter, letter_color, flap_gap, front=true, bleed = 0) {
     }
 }
 
-module flap_with_letters(flap_color, letter_color, flap_index, flap_gap, flap=true, front_letter=true, back_letter=true, bleed=0) {
+module flap_with_letters(flap_color, letter_color, flap_index, flap_gap, flap=true, front_letter=true, back_letter=true, bleed=0, cut_tabs=true) {
     if (len(character_list) != get_num_flaps()) {
         echo("Warning: character_list and num_flaps mismatch!");
     }
     if (flap) {
-        _flap(flap_color);
+        _flap(flap_color, cut_tabs);
     }
     if (front_letter) {
         _flap_letter(get_letter_for_front(flap_index), letter_color, flap_gap, front=true, bleed=bleed);

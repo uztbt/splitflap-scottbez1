@@ -1,0 +1,22 @@
+version: 3
+
+env:
+  TEXT: ' ABCDEFGHIJKLMNOPQRSTUVWXYZ$&#0123456789:.-?!'
+  NUMBERS: '0123456789'
+
+tasks:
+  generate-fonts-double-sided:
+    cmds:
+      - python3.9 scripts/generate_fonts.py --mode double-sided --fill --text "$NUMBERS"
+      - sed -i '' 's/#000000/#0000FF/g' build/fonts/front/combined.svg
+      - sed -i '' 's/#000000/#0000FF/g' build/fonts/back/combined.svg
+  generate-fonts-full:
+    cmds:
+      - python3.9 scripts/generate_fonts.py --mode full-font --fill --text "$NUMBERS"
+  generate-fonts-print:
+    cmds:
+      - python3.9 scripts/generate_fonts.py --mode print-font --fill --text "$NUMBERS" --columns 2
+  svg-to-pdf-double-sided:
+    cmds:
+      - rsvg-convert -f pdf -o build/fonts/front/front-combined.pdf build/fonts/front/combined.svg
+      - rsvg-convert -f pdf -o build/fonts/back/back-combined.pdf build/fonts/back/combined.svg
